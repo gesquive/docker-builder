@@ -36,10 +36,10 @@ build: ## Build the image
 
 .PHONY: release
 release: ## Tag and release the image
-	@echo "building '${DK_TAG}' docker image"
-	${DOCKER} build --pull -t ${IMAGE}:${DK_TAG} .
-	${DOCKER} push ${IMAGE}:${DK_TAG}
+	@echo "building '${DK_VERSION}' docker image"
+	${DOCKER} build --pull -t ${IMAGE}:${DK_VERSION} .
+	${DOCKER} push ${IMAGE}:${DK_VERSION}
 
 	@echo "tag with latest"
-	${DOCKER} tag ${IMAGE}:${DK_TAG} ${IMAGE}:latest
+	${DOCKER} tag ${IMAGE}:${DK_VERSION} ${IMAGE}:latest
 	${DOCKER} push ${IMAGE}:latest
