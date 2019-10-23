@@ -1,6 +1,8 @@
 
 FROM docker:stable
 
+ENV DOCKER_CLI_EXPERIMENTAL=enabled
+
 # Install qemu
 RUN apk --update add --no-cache qemu-x86_64 qemu-i386 qemu-arm
 
@@ -13,3 +15,6 @@ RUN apk add --virtual build-tools curl && \
         xargs curl -L -o ~/.docker/cli-plugins/docker-buildx && \
         chmod a+x ~/.docker/cli-plugins/docker-buildx && \
         apk del build-tools
+
+# Install build utils
+RUN apk --update add --no-cache make git curl 
