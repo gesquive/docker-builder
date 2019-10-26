@@ -4,9 +4,10 @@
 Docker build image for x86_64/amd64 that can build multi-arch docker images.
 
 Architectures supported include:
- - x86_64
+ - amd64
  - i386
  - arm
+ - arm64
 
 Includes the following build tools:
 

@@ -2,19 +2,43 @@ image: docker:stable
 services:
   - name: docker:dind
 
-variables:
-  DOCKER_HOST: tcp://docker:2375
-  DOCKER_DRIVER: overlay2
-
 stages:
   - build
+  - release
 
 before_script:
-  - apk update && apk add --no-cache make git
+  - apk --update add --no-cache make git
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
-build:
+release-amd64:
   stage: build
+  image: amd64/docker:stable
   script:
-    - make build
-    - make release
+    - make release-docker-amd64
+
+release-arm32v6:
+  stage: build
+  tags: [linux, arm]
+  image: arm32v6/docker:stable
+  script:
+    - make release-docker-arm32v6
+
+release-arm32v7:
+  stage: build
+  tags: [linux, arm]
+  image: arm32v7/docker:stable
+  script:
+    - make release-docker-arm32v7
+
+release-arm64v8:
+  stage: build
+  tags: [linux, arm]
+  image: arm64v8/docker:stable
+  script:
+    - make release-docker-arm64v8
+
+release:
+  stage: release
+  script:
+    - docker info
+    - make release-manifest
