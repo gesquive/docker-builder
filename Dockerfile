@@ -7,7 +7,11 @@ RUN apt update && apt install -y qemu-user-static binfmt-support make git curl &
     rm -rf /var/lib/apt/lists/*
 
 # Configure binfmt-support
-RUN update-binfmts --enable
+RUN update-binfmts --enable && \
+    curl https://raw.githubusercontent.com/qemu/qemu/master/scripts/qemu-binfmt-conf.sh -o /qemu-binfmt-conf.sh && \
+    chmod +x /qemu-binfmt-conf.sh && \
+    curl https://raw.githubusercontent.com/multiarch/qemu-user-static/master/containers/latest/register.sh -o /usr/bin/qemu-register.sh && \ 
+    chmod +x /usr/bin/qemu-register.sh
 
 # Install Docker
 RUN apt update && apt install -y --no-install-recommends apt-transport-https ca-certificates gnupg2 software-properties-common && \

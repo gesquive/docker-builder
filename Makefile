@@ -30,9 +30,9 @@ help:
 
 .PHONY: build
 build: ## Build the image
-	@echo "building ${IMAGE_TAG}"
+	@echo "building ${DK_VERSION}"
 	${DOCKER} info
-	${DOCKER} build  --pull -t ${IMAGE} .
+	${DOCKER} build --pull -t ${IMAGE}:${DK_VERSION} .
 
 .PHONY: release
 release: ## Tag and release the image
@@ -43,28 +43,3 @@ release: ## Tag and release the image
 	@echo "tag with latest"
 	${DOCKER} tag ${IMAGE}:${DK_VERSION} ${IMAGE}:latest
 	${DOCKER} push ${IMAGE}:latest
-
-release-docker-%:
-	@echo "building '${DK_TAG}' docker image"
-	${DOCKER} build --pull -t ${IMAGE}:${DK_TAG} .
-	${DOCKER} push ${IMAGE}:${DK_TAG}
-
-release-docker-amd64: DK_TAG=${DK_VERSION}-amd64
-release-docker-arm32v6: DK_TAG=${DK_VERSION}-arm32v6
-release-docker-arm32v7: DK_TAG=${DK_VERSION}-arm32v7
-release-docker-arm64v8: DK_TAG=${DK_VERSION}-arm64v8
-
-.PHONY: release-manifest
-release-manifest:  ## build and push all of docker images
-	@echo "building docker manifest"
-	${DOCKER} manifest create ${IMAGE}:${DK_VERSION} ${IMAGE}:${DK_VERSION}-amd64 ${IMAGE}:${DK_VERSION}-arm32v6 ${IMAGE}:${DK_VERSION}-arm32v7 ${IMAGE}:${DK_VERSION}-arm64v8
-	${DOCKER} manifest annotate ${IMAGE}:${DK_VERSION} ${IMAGE}:${DK_VERSION}-arm32v6 --os linux --arch arm --variant v6
-	${DOCKER} manifest annotate ${IMAGE}:${DK_VERSION} ${IMAGE}:${DK_VERSION}-arm32v7 --os linux --arch arm --variant v7
-	${DOCKER} manifest annotate ${IMAGE}:${DK_VERSION} ${IMAGE}:${DK_VERSION}-arm64v8 --os linux --arch arm64 --variant v8
-	${DOCKER} manifest push ${IMAGE}:${DK_VERSION}
-
-	${DOCKER} manifest create ${IMAGE}:latest ${IMAGE}:${DK_VERSION}-amd64 ${IMAGE}:${DK_VERSION}-arm32v6 ${IMAGE}:${DK_VERSION}-arm32v7 ${IMAGE}:${DK_VERSION}-arm64v8
-	${DOCKER} manifest annotate ${IMAGE}:${DK_VERSION} ${IMAGE}:${DK_VERSION}-arm32v6 --os linux --arch arm --variant v6
-	${DOCKER} manifest annotate ${IMAGE}:${DK_VERSION} ${IMAGE}:${DK_VERSION}-arm32v7 --os linux --arch arm --variant v7
-	${DOCKER} manifest annotate ${IMAGE}:${DK_VERSION} ${IMAGE}:${DK_VERSION}-arm64v8 --os linux --arch arm64 --variant v8
-	${DOCKER} manifest push ${IMAGE}:latest
