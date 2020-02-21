@@ -9,7 +9,7 @@ export DOCKER_CLI_EXPERIMENTAL = enabled
 OWNER = gesquive
 
 # Project name used in package name
-PROJECT_NAME = master-builder
+PROJECT_NAME = docker-builder
 
 # Project url used for builds
 # examples: index.docker.io, registry.gitlab.com

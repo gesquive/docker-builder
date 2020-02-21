@@ -1,12 +1,13 @@
-# master-builder
-[![pipeline status](https://img.shields.io/gitlab/pipeline/gesquive/master-builder?style=flat-square)](https://gitlab.com/gesquive/master-builder/pipelines)
+# docker-builder
+[![Pipeline Status](https://img.shields.io/circleci/build/github/gesquive/docker-builder?style=flat-square)](https://gitlab.com/gesquive/docker-builder/pipelines)
+[![Docker Pulls](https://img.shields.io/docker/pulls/gesquive/docker-builder?style=flat-square)](https://hub.docker.com/r/gesquive/docker-builder)
 
 Docker build image for x86_64/amd64 that can build multi-arch docker images.
 
 Architectures supported include:
  - amd64
  - i386
- - arm
+ - armv6/v7
  - arm64
 
 Includes the following build tools:
