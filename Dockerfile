@@ -28,3 +28,6 @@ RUN mkdir -p ~/.docker/cli-plugins && \
     curl -s https://api.github.com/repos/docker/buildx/releases/latest | \
     grep "browser_download_url.*linux-$ARCH" | cut -d '"' -f4 | xargs curl -L -o ~/.docker/cli-plugins/docker-buildx && \
     chmod a+x ~/.docker/cli-plugins/docker-buildx
+
+# Install cci-clone
+RUN curl -sL https://git.io/JvVAE | bash
