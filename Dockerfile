@@ -30,5 +30,15 @@ RUN mkdir -p ~/.docker/cli-plugins && \
     grep "browser_download_url.*linux-$ARCH" | cut -d '"' -f4 | xargs curl -L -o ~/.docker/cli-plugins/docker-buildx && \
     chmod a+x ~/.docker/cli-plugins/docker-buildx
 
+# Install spokeo
+RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 && \
+    . /etc/os-release && \
+    sh -c "echo 'deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x${NAME}_${VERSION_ID}/ /' > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list" && \
+    curl -fsSL https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/x${NAME}_${VERSION_ID}/Release.key | apt-key add - && \
+    apt-get update && apt-get install -y skopeo && \
+    apt-get remove -y --purge gnupg2 && \
+    apt-get autoremove -y --purge && \
+    rm -rf /var/lib/apt/lists/*
+
 # Install cci-clone
 RUN curl -sL https://git.io/JvVAE | bash

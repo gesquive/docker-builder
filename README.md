@@ -15,3 +15,4 @@ Includes the following build tools:
  - [qemu](https://www.qemu.org/)
  - [docker](https://docs.docker.com/install/)
  - [docker-buildkit](https://docs.docker.com/buildx/working-with-buildx/)
+ - [skopeo](https://github.com/containers/skopeo)
