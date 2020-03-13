@@ -3,7 +3,7 @@ FROM ubuntu:19.04
 ENV DOCKER_CLI_EXPERIMENTAL=enabled
 
 # Install qemu, binfmt-support, and build utils
-RUN apt update && apt install -y qemu-user-static binfmt-support make git curl && \
+RUN apt-get update && apt-get install -y qemu-user-static binfmt-support make git curl && \
     rm -rf /var/lib/apt/lists/*
 
 # Configure binfmt-support
@@ -14,12 +14,12 @@ RUN update-binfmts --enable && \
     chmod +x /usr/bin/qemu-register.sh
 
 # Install Docker
-RUN apt update && apt install -y --no-install-recommends apt-transport-https ca-certificates gnupg2 software-properties-common && \
+RUN apt-get update && apt-get install -y --no-install-recommends apt-transport-https ca-certificates gnupg2 software-properties-common && \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
     add-apt-repository "deb https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
-    apt install -y docker-ce-cli && \
-    apt remove -y --purge apt-transport-https gnupg2 software-properties-common && \
-    apt autoremove -y --purge && \
+    apt-get install -y docker-ce-cli && \
+    apt-get remove -y --purge apt-transport-https gnupg2 software-properties-common && \
+    apt-get autoremove -y --purge && \
     rm -rf /var/lib/apt/lists/*
 
 # Install buildx plugin
