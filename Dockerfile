@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=ubuntu:19.04
+ARG BASE_IMAGE=ubuntu:20.04
 FROM $BASE_IMAGE
 
 ENV DOCKER_CLI_EXPERIMENTAL=enabled
@@ -15,13 +15,17 @@ RUN update-binfmts --enable && \
     chmod +x /usr/bin/qemu-register.sh
 
 # Install Docker
-RUN apt-get update && apt-get install -y --no-install-recommends apt-transport-https ca-certificates gnupg2 software-properties-common && \
+RUN export DEBIAN_FRONTEND=noninteractive && \
+    export TZ=UTC &&\
+    apt-get update && apt-get install -y --no-install-recommends apt-transport-https ca-certificates gnupg2 software-properties-common && \
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
     add-apt-repository "deb https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
     apt-get install -y docker-ce-cli && \
     apt-get remove -y --purge apt-transport-https gnupg2 software-properties-common && \
     apt-get autoremove -y --purge && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    unset DEBIAN_FRONTEND && \
+    unset TZ
 
 # Install buildx plugin
 RUN mkdir -p ~/.docker/cli-plugins && \
